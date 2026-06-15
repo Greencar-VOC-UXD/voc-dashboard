@@ -61,13 +61,15 @@ voc-dashboard/
 
 ## data.js 갱신 시 수정 위치
 
+> **월 갱신은 아래 데이터 층만 고치면 끝.** 인사이트의 누적·전체%·순위·전수 비중·반납 묶음 합계·구간 라벨은 전부 `index.html`이 `months`·`cumulative`에서 **자동 계산**한다(2026-06-15 리팩터). 수치 일일이 손대지 않는다.
+
 | 항목 | 위치 | 비고 |
 |---|---|---|
 | 새 월 추가/수정 | `months` 배열 | `{ ym, total, regime, days, categories, unknown?, partial? }` |
-| 누적 총계·분포 | `cumulative` | 확정 집계로 통째로 교체 |
-| 전수 구간 일수 | `fullRegime.days` | 일평균(= 전수 누적 ÷ 일수) 계산에 사용 |
+| 누적 총계·분포 | `cumulative` (`total`·`byRegime.full`·`byCategory`) | 확정 집계로 갱신 |
+| 전수 구간 일수 | `fullRegime.days`·`label` | 일평균(= 전수 누적 ÷ 일수) 계산에 사용 |
 | 부분 월 확정 | 해당 월의 `partial`/`partialLabel` 제거, `days`를 말일로 | 예: 2026-06이 월말 확정되면 `partial` 삭제, `days: 30` |
-| 인사이트 갱신 | `insights` 배열 | 확정된 방향 변경 시에만 |
+| 인사이트 **분석 멘트** | `insights[].facts/scenarios/...` | **숫자는 자동** — 질적 해석(방향·시나리오)만 필요 시 수정 |
 
 ### 데이터 규칙 (위반 금지)
 
