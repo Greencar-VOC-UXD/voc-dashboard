@@ -71,7 +71,7 @@ voc-dashboard/
 | 부분 월 확정 | 해당 월의 `partial`/`partialLabel` 제거, `days`를 말일로 | 예: 2026-06이 월말 확정되면 `partial` 삭제, `days: 30` |
 | 인사이트 **분석 멘트** | `insights[].facts/scenarios/...` | **숫자는 자동** — 질적 해석(방향·시나리오)만 필요 시 수정 |
 | 카테고리 **쉬운 말** | `insights[].plain` (`oneLiner`·`pains`·`fixes`) | 카드에 먼저 보이는 "한 줄 뜻 / 어떤 불편 / 어떻게 고치나". 카테고리 의미가 바뀔 때만 손댐 |
-| 온보딩·용어 풀이 | `guide` (`onboarding`·`glossary`·`badges`) | 상단 "처음 보시나요?" 패널 내용. 새 용어 생기면 glossary에 추가 |
+| 안내(이 대시보드는?) | `guide` (`purpose`·`caveat`·`inScopeNote`·`outScope`·`actionNote`) | 상단 접이식 패널 + 결론 박스 문구 |
 
 ### 데이터 규칙 (위반 금지)
 
