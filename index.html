@@ -4,24 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>G car VOC 월별 추이 대시보드</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='52' font-size='80' text-anchor='middle' dominant-baseline='central'>📊</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23436378'/><text x='50' y='56' font-size='62' font-weight='800' fill='white' text-anchor='middle' dominant-baseline='central' font-family='sans-serif'>G</text></svg>">
 <script src="lib/chart.umd.js"></script>
 <script src="data.js"></script>
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f6f7f8; --card: #ffffff; --line: #ececef; --line-2: #f1f2f4;
-    --ink: #1a1d21; --ink-2: #5c626b; --ink-3: #9298a1; --accent: #3f4654;
-    --fact: #1e4fd6;   --fact-bg: #eef2fe;
+    /* 그린카 디자인 시스템 — Navy 050 #436378 / Navy 030 #A1B1BB / Gray Scale (Noto Sans KR) */
+    --bg: #f5f6f7; --card: #ffffff; --line: #e7eaec; --line-2: #eff1f3;
+    --ink: #1a1d21; --ink-2: #5c626b; --ink-3: #9298a1; --accent: #436378;
+    --fact: #436378;   --fact-bg: #eaf1f4;
     --infer: #b4540a;  --infer-bg: #fbf0e6;
     --check: #5b626c;  --check-bg: #eef0f2;
-    --up: #c0531f;     --down: #1e63c4;
-    --r-past5: #aab0b8; --r-excerpt: #e8893f; --r-full: #3f6bd6;
+    --up: #c0531f;     --down: #436378;
+    --r-past5: #aab0b8; --r-excerpt: #e8893f; --r-full: #436378;
+    --navy: #436378; --navy-030: #A1B1BB; --navy-bg: #eaf1f4;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--bg); color: var(--ink);
-    font-family: "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, sans-serif;
+    font-family: "Noto Sans KR", "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, sans-serif;
     font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px 88px; }
 
@@ -39,7 +43,7 @@
   .s-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
   .s-head h2 { font-size: 16px; margin: 0; letter-spacing: -0.3px; }
   .s-head .h-meta { font-size: 12px; color: var(--ink-3); }
-  .s-head .tag-ok { font-size: 12px; font-weight: 700; color: #2f7d4f; background: #e7f4ec; padding: 1px 8px; border-radius: 999px; }
+  .s-head .tag-ok { font-size: 12px; font-weight: 700; color: var(--navy); background: var(--navy-bg); padding: 1px 8px; border-radius: 999px; }
   .s-head .tag-care { font-size: 12px; font-weight: 700; color: #b4540a; background: #fbf0e6; padding: 1px 8px; border-radius: 999px; }
   .s-note { color: var(--ink-3); font-size: 12px; margin: 0 0 14px; }
 
@@ -107,7 +111,7 @@
   .sev.high { color: #b4540a; background: #fbf0e6; }
   .sev.mid  { color: #5c626b; background: #eef0f2; }
   .sev.low  { color: #9298a1; background: #f4f5f6; }
-  .sum-prio { font-size: 12px; font-weight: 700; color: #3a6a44; background: #e9f4ec; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+  .sum-prio { font-size: 12px; font-weight: 700; color: var(--navy); background: var(--navy-bg); padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
   .chev { width: 15px; height: 15px; color: var(--ink-3); transition: transform .18s ease; flex: 0 0 auto; }
   details.insight[open] .chev { transform: rotate(180deg); }
 
@@ -156,10 +160,10 @@
   .ob-list li { margin-bottom: 6px; color: var(--ink-2); }
   .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
   .scope-box { border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; }
-  .scope-box.in { background: #f1f7f3; border-color: #d9e9dd; }
+  .scope-box.in { background: var(--navy-bg); border-color: #d4e1e7; }
   .scope-box.out { background: #faf6f2; border-color: #ecdfd0; }
   .scope-box .sb-t { font-size: 12px; font-weight: 800; margin-bottom: 6px; }
-  .scope-box.in .sb-t { color: #2f7d4f; }
+  .scope-box.in .sb-t { color: var(--navy); }
   .scope-box.out .sb-t { color: #b4540a; }
   .scope-box ul { margin: 0; padding-left: 16px; }
   .scope-box li { margin-bottom: 4px; font-size: 12px; color: var(--ink-2); }
@@ -184,7 +188,7 @@
   .sum-one { font-size: 12px; color: var(--ink-2); font-weight: 400; line-height: 1.45; }
   .i-lead { background: #f8fafc; border: 1px solid var(--line-2); border-radius: 10px; padding: 11px 13px 12px; margin-top: 12px; }
   .i-lead .bt { color: var(--accent); }
-  .plainbadge { display: inline-block; font-size: 12px; font-weight: 800; color: #2f7d4f; background: #e7f4ec; padding: 1px 7px; border-radius: 5px; margin-left: 6px; vertical-align: middle; }
+  .plainbadge { display: inline-block; font-size: 12px; font-weight: 800; color: var(--navy); background: var(--navy-bg); padding: 1px 7px; border-radius: 5px; margin-left: 6px; vertical-align: middle; }
 
   @media (max-width: 620px) {
     .scope-grid { grid-template-columns: 1fr; }
@@ -322,7 +326,7 @@
   function pct(p, w, d) { return (p / w * 100).toFixed(d === undefined ? 1 : d); }
   function cat(key) { return D.categories.find(function (x) { return x.key === key; }); }
   function catFull(key) { var c = cat(key); return "카테고리 " + c.num + " " + c.name; }
-  function regimeColor(r) { return { past5: "#aab0b8", excerpt: "#e8893f", full: "#3f6bd6" }[r]; }
+  function regimeColor(r) { return { past5: "#aab0b8", excerpt: "#e8893f", full: "#436378" }[r]; }
   function monthLabel(m) { var l = m.ym.replace("-", "."); if (m.partial) l += " (" + m.partialLabel + ")"; return l; }
   function monthShort(m) { return m.ym.replace("-", ".") + (m.partial ? " (진행)" : ""); }
   var SEV = { "높음": { cls: "high", w: 3 }, "중간": { cls: "mid", w: 2 }, "낮음": { cls: "low", w: 1 } };
@@ -379,12 +383,12 @@
   var fm = D.months.filter(function (m) { return m.regime === "full"; });
 
   /* ── 차트 기본 폰트: Pretendard ── */
-  Chart.defaults.font.family = "Pretendard Variable, Pretendard, Apple SD Gothic Neo, Malgun Gothic, -apple-system, sans-serif";
+  Chart.defaults.font.family = "Noto Sans KR, Pretendard Variable, Pretendard, Apple SD Gothic Neo, Malgun Gothic, -apple-system, sans-serif";
 
   /* ── 전수 구간 일평균 바 ── */
   new Chart(document.getElementById("dailyAvgChart"), {
     type: "bar",
-    data: { labels: fm.map(monthShort), datasets: [{ data: fm.map(function (m) { return +(m.total / m.days).toFixed(2); }), backgroundColor: fm.map(function (m) { return m.partial ? "#9db8ea" : "#3f6bd6"; }), borderRadius: 6, maxBarThickness: 90 }] },
+    data: { labels: fm.map(monthShort), datasets: [{ data: fm.map(function (m) { return +(m.total / m.days).toFixed(2); }), backgroundColor: fm.map(function (m) { return m.partial ? "#A1B1BB" : "#436378"; }), borderRadius: 6, maxBarThickness: 90 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
@@ -457,14 +461,14 @@
   }
   var regimeBandPlugin = { id: "regimeBands", beforeDraw: function (chart) {
     var ctx = chart.ctx, x = chart.scales.x, area = chart.chartArea; if (!x || !area) return;
-    var band = { past5: "rgba(170,176,184,0.10)", excerpt: "rgba(232,137,63,0.08)", full: "rgba(63,107,214,0.07)" };
+    var band = { past5: "rgba(170,176,184,0.10)", excerpt: "rgba(232,137,63,0.08)", full: "rgba(67,99,120,0.08)" };
     var start = 0;
     for (var i = 1; i <= regimes.length; i++) {
       if (i === regimes.length || regimes[i] !== regimes[start]) {
         var x0 = (start === 0) ? area.left : (x.getPixelForValue(start - 1) + x.getPixelForValue(start)) / 2;
         var x1 = (i === regimes.length) ? area.right : (x.getPixelForValue(i - 1) + x.getPixelForValue(i)) / 2;
         ctx.save(); ctx.fillStyle = band[regimes[start]]; ctx.fillRect(x0, area.top, x1 - x0, area.bottom - area.top);
-        ctx.fillStyle = regimeColor(regimes[start]); ctx.font = "700 12px Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"; ctx.textAlign = "center";
+        ctx.fillStyle = regimeColor(regimes[start]); ctx.font = "700 12px Noto Sans KR, Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"; ctx.textAlign = "center";
         ctx.fillText({ past5: "과거 1년 (5종류)", excerpt: "발췌 (OCR)", full: "전수 (10개)" }[regimes[start]], (x0 + x1) / 2, area.top + 13);
         ctx.restore(); start = i;
       }
@@ -473,7 +477,7 @@
     var ctx = chart.ctx, x = chart.scales.x, y = chart.scales.y;
     var idx = D.months.findIndex(function (m) { return m.ym === "2026-04"; }); if (idx < 0) return;
     var px = x.getPixelForValue(idx), py = y.getPixelForValue(totals[idx]);
-    ctx.save(); ctx.font = "600 12px Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"; ctx.fillStyle = "#b4540a"; ctx.textAlign = "right";
+    ctx.save(); ctx.font = "600 12px Noto Sans KR, Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"; ctx.fillStyle = "#b4540a"; ctx.textAlign = "right";
     ctx.fillText("집계 방식 변화(발췌→전수)", px - 13, py + 25); ctx.fillText("— 실제 발생 급증 아님", px - 13, py + 38);
     ctx.strokeStyle = "#b4540a"; ctx.setLineDash([2, 2]); ctx.beginPath(); ctx.moveTo(px - 9, py + 21); ctx.lineTo(px - 1, py + 6); ctx.stroke(); ctx.restore();
   }};
