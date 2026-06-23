@@ -7,7 +7,7 @@ GitHub Pages로 배포하면 공유용 링크로도 제공된다 (아래 [배포
 ## 폴더 구조
 
 ```
-voc-dashboard/
+voc/
 ├── index.html          ← 대시보드 (data.js만 읽음, 로직과 데이터 완전 분리)
 ├── data.js             ← 모든 수치 (window.VOC_DATA) — 집계 수치만, 원문 금지
 ├── lib/chart.umd.js    ← Chart.js v4 로컬 사본 (CDN 금지, 오프라인 실행 보장)
@@ -42,10 +42,10 @@ voc-dashboard/
 
 `deploy.sh`가 자동으로 처리하는 내용:
 - git 사용자 설정(미설정 시 GitHub 계정 기준) 및 커밋
-- GitHub에 `voc-dashboard` **public** 저장소 생성 후 push
+- GitHub에 `voc` **public** 저장소 생성 후 push
   (무료 계정의 GitHub Pages는 public 저장소에서만 동작)
 - GitHub Pages 활성화 — Branch: `main`, 폴더: `/ (root)`
-- 공유용 링크 출력: `https://{계정명}.github.io/voc-dashboard/`
+- 공유용 링크 출력: `https://{계정명}.github.io/voc/`
 
 수동으로 할 경우: 저장소 push 후 GitHub의 **Settings → Pages → Branch: main, 폴더: / (root)** 선택.
 
