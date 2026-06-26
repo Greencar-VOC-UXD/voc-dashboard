@@ -23,18 +23,19 @@
 <script src="data.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* 그린카 디자인 시스템 — Navy 050 #436378 / Navy 030 #A1B1BB / Gray Scale (Noto Sans KR) */
-    --bg: #f5f6f7; --card: #ffffff; --line: #e7eaec; --line-2: #eff1f3;
-    --ink: #1a1d21; --ink-2: #5c626b; --ink-3: #9298a1; --accent: #436378;
+    /* 그린카 디자인 시스템 — Navy #436378 · 수치=Space Grotesk · 색=의미 1:1 (2026-06-26 개편) */
+    --bg: #f4f6f7; --card: #ffffff; --line: #e4e8ea; --line-2: #eef1f2;
+    --ink: #16242e; --ink-2: #4a5560; --ink-3: #6b7680; --accent: #436378;
     --fact: #436378;   --fact-bg: #eaf1f4;
-    --infer: #b4540a;  --infer-bg: #fbf0e6;
+    --infer: #a9601a;  --infer-bg: #fbf0e6;
     --check: #5b626c;  --check-bg: #eef0f2;
     --up: #c0531f;     --down: #436378;
-    --r-past5: #aab0b8; --r-excerpt: #e8893f; --r-full: #436378;
-    --navy: #436378; --navy-030: #A1B1BB; --navy-bg: #eaf1f4;
+    --r-past5: #b7c2c9; --r-excerpt: #7f9aab; --r-full: #3a5a6e;  /* 수집구간 = 네이비 단계 (주황 제거) */
+    --navy: #436378; --navy-030: #A1B1BB; --navy-bg: #eaf1f4; --navy-deep: #22384a;
+    --num: "Space Grotesk", ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -124,7 +125,7 @@
   .sev { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
   .sev.high { color: #b4540a; background: #fbf0e6; }
   .sev.mid  { color: #5c626b; background: #eef0f2; }
-  .sev.low  { color: #9298a1; background: #f4f5f6; }
+  .sev.low  { color: #6b7680; background: #f4f5f6; }
   .sum-prio { font-size: 12px; font-weight: 700; color: var(--navy); background: var(--navy-bg); padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
   .chev { width: 15px; height: 15px; color: var(--ink-3); transition: transform .18s ease; flex: 0 0 auto; }
   details.insight[open] .chev { transform: rotate(180deg); }
@@ -215,6 +216,47 @@
   footer { color: var(--ink-3); font-size: 12px; margin-top: 34px; text-align: center; }
 
   @media (max-width: 620px) { .sum-right { width: 100%; margin-left: 0; } .kpi .v { font-size: 24px; } .dist-row { grid-template-columns: 1fr; gap: 5px; } .dist-bar { height: 12px; } }
+
+  /* ===== 디자인 토큰 적용 (2026-06-26): 수치 타이포 · 배지 · 접근성 · 시그니처 ===== */
+  /* 수치 타이포 — 계기판 느낌 (Space Grotesk + tabular) */
+  .num { font-family: var(--num); font-variant-numeric: tabular-nums; }
+  .kpi .v { font-family: var(--num); font-variant-numeric: tabular-nums; }
+  .kpi .v small { font-family: "Noto Sans KR", sans-serif; letter-spacing: 0; }
+  td, th, .dist-val, .sum-stat, .sum-trend, .ci-v, .sum-stat b { font-variant-numeric: tabular-nums; }
+
+  /* 인식론 배지(사실/추론/확인) → 외곽선: 채워진 색 경쟁 제거 */
+  .badge.fact, .badge.infer, .badge.check { background: transparent; border: 1px solid currentColor; padding: 0 6px; }
+  .badge.fact { color: var(--fact); } .badge.infer { color: var(--infer); } .badge.check { color: var(--check); }
+
+  /* 심각도 높음 → 채움 (주의 = 따뜻한 색 1의미, 추세 상승과 동일 계열) */
+  .sev.high { color: #fff; background: var(--up); }
+
+  /* 접근성: 키보드 포커스 가시화 */
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; border-radius: 8px; }
+  /* 접근성: 모션 감소 존중 */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: .001ms !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+  }
+
+  /* ── 시그니처 히어로: 지배적 사실 하나 ── */
+  .hero { position: relative; background: linear-gradient(180deg,#fbfcfc,#ffffff); border: 1px solid var(--line); border-radius: 18px; padding: 24px 26px 20px; }
+  .hero .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .04em; color: var(--ink-3); }
+  .hero .eyebrow b { color: var(--up); }
+  .hero-grid { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; margin-top: 8px; }
+  .hero-figure { display: flex; align-items: flex-start; gap: 3px; }
+  .hero-figure .big { font-family: var(--num); font-weight: 700; font-size: 68px; line-height: .82; letter-spacing: -2px; color: var(--navy-deep); font-variant-numeric: tabular-nums; }
+  .hero-figure .pct { font-family: var(--num); font-weight: 600; font-size: 26px; color: var(--navy); margin-top: 6px; }
+  .hero-thesis { font-size: 19px; font-weight: 800; letter-spacing: -.4px; line-height: 1.3; color: var(--ink); }
+  .hero-thesis b { color: var(--up); }
+  .hero-sub { font-size: 13px; color: var(--ink-2); margin-top: 6px; line-height: 1.55; }
+  .hero-sub b { color: var(--ink); font-weight: 700; }
+  .propbar { display: flex; height: 13px; border-radius: 7px; overflow: hidden; margin-top: 14px; box-shadow: 0 0 0 1px var(--line); }
+  .propbar span { display: block; }
+  .proplab { display: flex; gap: 15px; margin-top: 9px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); }
+  .proplab i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; margin-right: 5px; vertical-align: -1px; }
+  .proplab b { color: var(--ink); font-weight: 700; }
+  @media (max-width: 620px) { .hero-grid { grid-template-columns: 1fr; gap: 14px; } .hero-figure .big { font-size: 56px; } }
 </style>
 </head>
 <body>
@@ -340,12 +382,12 @@
   function pct(p, w, d) { return (p / w * 100).toFixed(d === undefined ? 1 : d); }
   function cat(key) { return D.categories.find(function (x) { return x.key === key; }); }
   function catFull(key) { var c = cat(key); return "카테고리 " + c.num + " " + c.name; }
-  function regimeColor(r) { return { past5: "#aab0b8", excerpt: "#e8893f", full: "#436378" }[r]; }
+  function regimeColor(r) { return { past5: "#b7c2c9", excerpt: "#7f9aab", full: "#3a5a6e" }[r]; }
   function monthLabel(m) { var l = m.ym.replace("-", "."); if (m.partial) l += " (" + m.partialLabel + ")"; return l; }
   function monthShort(m) { return m.ym.replace("-", ".") + (m.partial ? " (진행)" : ""); }
   var SEV = { "높음": { cls: "high", w: 3 }, "중간": { cls: "mid", w: 2 }, "낮음": { cls: "low", w: 1 } };
 
-  var CAT_COLORS = { c1: "#4e79a7", c2: "#e8893f", c3: "#59a14f", c4: "#d9534f", c5: "#56a8a3", c6: "#dcab3c", c7: "#9a6fb0", c8: "#e391a0", c9: "#8d6e63", c10: "#7fb1ab" };
+  var CAT_COLORS = { c1: "#4e79a7", c2: "#22384a", c3: "#59a14f", c4: "#d9534f", c5: "#56a8a3", c6: "#dcab3c", c7: "#9a6fb0", c8: "#e391a0", c9: "#8d6e63", c10: "#7fb1ab" };
   var UNKNOWN_COLOR = "#d6d9dd";
 
   function catPill(key) { var c = cat(key); return '<span class="cat-pill" style="--cc:' + CAT_COLORS[key] + '">카테고리 ' + c.num + '</span>'; }
@@ -371,23 +413,41 @@
   ob += '<div class="concl-note" style="margin-top:12px"><span class="badge check">주의</span>' + g.caveat + '</div>';
   document.getElementById("onboard-body").innerHTML = ob;
 
-  /* ── 한눈에 보는 결론 (확정 수치 자동 도출) ── */
+  /* ── 한눈에 보는 결론 → 시그니처 히어로 (지배적 사실 하나, 확정 수치 자동 도출) ── */
   (function () {
-    var topKey = Object.keys(D.cumulative.byCategory).sort(function (a, b) { return D.cumulative.byCategory[b] - D.cumulative.byCategory[a]; })[0];
-    var topCum = D.cumulative.byCategory[topKey];
-    var b = D.returnBundle, bt = b.keys.reduce(function (a, k) { return a + D.cumulative.byCategory[k]; }, 0);
-    var box = '<div class="concl">';
-    box += '<div class="concl-item"><div class="ci-k">가장 많은 불만</div><div class="ci-v">' + cat(topKey).name + '<br><b>' + fmt(topCum) + '건</b> · 전체의 ' + pct(topCum, D.cumulative.total) + '%</div><div class="ci-e">= ' + fmt(topCum) + '/' + fmt(D.cumulative.total) + ' (카테고리 ' + cat(topKey).num + ')</div></div>';
-    box += '<div class="concl-item"><div class="ci-k">가장 큰 불편 덩어리</div><div class="ci-v">반납 관련 3가지를 합치면<br><b>' + fmt(bt) + '건</b> · 약 ' + pct(bt, D.cumulative.total, 0) + '%</div><div class="ci-e">카테고리 ' + b.keys.map(function (k) { return cat(k).num; }).join("·") + ' (반납 사진·만차·특수반납)</div></div>';
-    box += '<div class="concl-item"><div class="ci-k">먼저 손볼 것</div><div class="ci-v">' + g.actionNote.split(" — ")[0].replace("가장 빨리 고칠 수 있는 건 ", "") + '</div><div class="ci-e">개선 화면 디자인 완료 — 개발만 남음</div></div>';
-    box += '</div>';
+    var total = D.cumulative.total, BY = D.cumulative.byCategory;
+    var topKey = Object.keys(BY).sort(function (a, b) { return BY[b] - BY[a]; })[0];
+    var topCum = BY[topKey];
+    var bk = D.returnBundle.keys, bt = bk.reduce(function (a, k) { return a + BY[k]; }, 0);
+    var c1c = BY.c1 || 0, c4c = BY.c4 || 0, rest = Math.max(0, total - bt - c1c - c4c);
+    var act = g.actionNote.split(" — ")[0].replace("가장 빨리 고칠 수 있는 건 ", "").replace(/^['"’‘]|['"’‘]$/g, "");
+    var bundlePct = +pct(bt, total, 0);
+    var lead = bundlePct >= 62 ? "전체 후기 <b>3건 중 2건</b>은 ‘반납’에서 나온다." : "‘반납’이 전체 후기의 <b>" + bundlePct + "%</b>를 차지한다.";
+    var box = '<div class="hero">';
+    box += '<div class="eyebrow">가장 큰 사실 · <b>먼저 이것부터</b></div>';
+    box += '<div class="hero-grid">';
+    box += '<div class="hero-figure"><span class="big">' + bundlePct + '</span><span class="pct">%</span></div>';
+    box += '<div>';
+    box += '<div class="hero-thesis">' + lead + '</div>';
+    box += '<div class="hero-sub">누적 <span class="num">' + fmt(total) + '</span>건 중 반납 묶음(반납 사진·만차·특수 안내) <span class="num">' + fmt(bt) + '</span>건. 단일 최대는 <b>' + cat(topKey).name + '</b> <span class="num">' + fmt(topCum) + '</span>건(<span class="num">' + pct(topCum, total) + '%</span>) — ' + act + '.</div>';
+    box += '<div class="propbar">'
+      + '<span style="width:' + pct(bt, total) + '%;background:var(--navy-deep)"></span>'
+      + '<span style="width:' + pct(c1c, total) + '%;background:var(--navy)"></span>'
+      + '<span style="width:' + pct(c4c, total) + '%;background:#5a7585"></span>'
+      + '<span style="width:' + pct(rest, total) + '%;background:var(--r-past5)"></span></div>';
+    box += '<div class="proplab">'
+      + '<span><i style="background:var(--navy-deep)"></i>반납 묶음 <b>' + pct(bt, total, 0) + '%</b></span>'
+      + '<span><i style="background:var(--navy)"></i>인수/대여 <b>' + pct(c1c, total, 0) + '%</b></span>'
+      + '<span><i style="background:#5a7585"></i>주유 <b>' + pct(c4c, total, 0) + '%</b></span>'
+      + '<span><i style="background:var(--r-past5)"></i>그 외 <b>' + pct(rest, total, 0) + '%</b></span></div>';
+    box += '</div></div></div>';
     box += '<div class="concl-note"><span class="badge fact">사실</span>위 숫자는 확정 집계에서 자동 계산됩니다. <b>주의</b>: 후기 모으는 방법이 3번 바뀌어 시기끼리 직접 비교는 안 됩니다.</div>';
     document.getElementById("concl-box").innerHTML = box;
   })();
 
   /* ── KPI ── */
   var fullTotal = D.cumulative.byRegime.full, fullDays = D.fullRegime.days;
-  var dailyAvg = (fullTotal / fullDays).toFixed(2);
+  var dailyAvg = (fullTotal / fullDays).toFixed(1);
   var kpi = "";
   kpi += '<div class="kpi"><div class="k">누적 VOC</div><div class="v">' + fmt(D.cumulative.total) + '<small> 건</small></div><div class="e">정기(전수) ' + fmt(D.cumulative.byRegime.full) + ' + 발췌 ' + fmt(D.cumulative.byRegime.excerpt) + ' + 과거 1년 ' + fmt(D.cumulative.byRegime.past5) + '</div></div>';
   kpi += '<div class="kpi"><div class="k">기간</div><div class="v" style="font-size:20px">2024.12–2026.06</div><div class="e">' + D.meta.monthCount + '개월 · ' + (partialMonth ? pmMon() + '은 ' + partialMonth.partialLabel : '') + '</div></div>';
@@ -398,6 +458,8 @@
 
   /* ── 차트 기본 폰트: Pretendard ── */
   Chart.defaults.font.family = "Noto Sans KR, Pretendard Variable, Pretendard, Apple SD Gothic Neo, Malgun Gothic, -apple-system, sans-serif";
+  /* 접근성: 모션 감소 시 차트 애니메이션 끔 */
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { Chart.defaults.animation = false; }
 
   /* ── 전수 구간 일평균 바 ── */
   new Chart(document.getElementById("dailyAvgChart"), {
@@ -409,7 +471,7 @@
         legend: { display: false },
         tooltip: { callbacks: { label: function (c) { var m = fm[c.dataIndex]; return "일평균 " + (m.total / m.days).toFixed(2) + "건 (= " + fmt(m.total) + "/" + m.days + "일)" + (m.partial ? " · " + m.partialLabel : ""); } } }
       },
-      scales: { x: { grid: { display: false }, ticks: { font: { size: 12 } } }, y: { beginAtZero: true, grid: { color: "#f0f1f3" }, title: { display: true, text: "일평균 건수", color: "#9298a1", font: { size: 12 } } } }
+      scales: { x: { grid: { display: false }, ticks: { font: { size: 12 } } }, y: { beginAtZero: true, grid: { color: "#f0f1f3" }, title: { display: true, text: "일평균 건수", color: "#6b7680", font: { size: 12 } } } }
     }
   });
 
@@ -454,7 +516,7 @@
     options: { responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false },
         tooltip: { filter: function (it) { return it.raw !== null && it.raw !== 0; }, callbacks: { footer: function (it) { if (!it.length) return ""; var m = D.months[it[0].dataIndex]; var f = "월 합계 " + fmt(m.total) + "건 · " + D.regimes[m.regime].label; if (m.partial) f += " · " + m.partialLabel; return f; } } } },
-      scales: { x: { stacked: true, grid: { display: false }, ticks: { maxRotation: 60, minRotation: 45, font: { size: 12 } } }, y: { stacked: true, beginAtZero: true, grid: { color: "#f0f1f3" }, title: { display: true, text: "건수 (월)", color: "#9298a1", font: { size: 12 } } } } }
+      scales: { x: { stacked: true, grid: { display: false }, ticks: { maxRotation: 60, minRotation: 45, font: { size: 12 } } }, y: { stacked: true, beginAtZero: true, grid: { color: "#f0f1f3" }, title: { display: true, text: "건수 (월)", color: "#6b7680", font: { size: 12 } } } } }
   });
   document.getElementById("stack-legend").innerHTML =
     D.categories.map(function (c) { return catTag(c.key); }).join("") +
@@ -475,7 +537,7 @@
   }
   var regimeBandPlugin = { id: "regimeBands", beforeDraw: function (chart) {
     var ctx = chart.ctx, x = chart.scales.x, area = chart.chartArea; if (!x || !area) return;
-    var band = { past5: "rgba(170,176,184,0.10)", excerpt: "rgba(232,137,63,0.08)", full: "rgba(67,99,120,0.08)" };
+    var band = { past5: "rgba(183,194,201,0.13)", excerpt: "rgba(127,154,171,0.13)", full: "rgba(58,90,110,0.10)" };
     var start = 0;
     for (var i = 1; i <= regimes.length; i++) {
       if (i === regimes.length || regimes[i] !== regimes[start]) {
@@ -504,7 +566,7 @@
           if (m.partial) L.push("⚠ " + m.partialLabel + " — 일평균 환산만");
           if (m.regime === "full" && m.days) L.push("일평균 " + (m.total / m.days).toFixed(2) + " (= " + fmt(m.total) + "/" + m.days + "일)");
           return L; } } } },
-      scales: { y: { beginAtZero: true, grid: { color: "#f0f1f3" }, title: { display: true, text: "건수 (월)", color: "#9298a1", font: { size: 12 } } }, x: { grid: { display: false }, ticks: { maxRotation: 60, minRotation: 45, font: { size: 12 } } } } },
+      scales: { y: { beginAtZero: true, grid: { color: "#f0f1f3" }, title: { display: true, text: "건수 (월)", color: "#6b7680", font: { size: 12 } } }, x: { grid: { display: false }, ticks: { maxRotation: 60, minRotation: 45, font: { size: 12 } } } } },
     plugins: [regimeBandPlugin]
   });
   document.getElementById("trend-legend").innerHTML =
