@@ -71,7 +71,7 @@
   body { margin: 0; background: var(--bg); color: var(--ink);
     font-family: "Pretendard Variable", "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, sans-serif;
     font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-  .wrap { max-width: 1600px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 56px) var(--space-20); }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px) var(--space-20); }
 
   header.top { padding: 30px 0 14px; }
   header.top { margin: var(--space-8) 0 var(--space-6); scroll-margin-top: 72px; }
@@ -80,7 +80,7 @@
 
   /* ── Sticky 사이트 헤더 ── */
   .site { position: sticky; top: 0; z-index: 50; background: var(--nav-bg); backdrop-filter: saturate(180%) blur(10px); border-bottom: 1px solid var(--line); }
-  .site-inner { max-width: 1600px; margin: 0 auto; padding: var(--space-3) clamp(16px, 4vw, 56px); display: flex; align-items: center; gap: var(--space-4); }
+  .site-inner { max-width: 1280px; margin: 0 auto; padding: var(--space-3) clamp(16px, 4vw, 48px); display: flex; align-items: center; gap: var(--space-4); }
   .brand { font-size: var(--fs-lg); font-weight: var(--fw-bold); color: var(--ink); text-decoration: none; letter-spacing: var(--ls-tight); white-space: nowrap; }
   .brand b { color: var(--accent); font-weight: var(--fw-bold); }
   .site-nav { display: flex; gap: 2px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
@@ -125,6 +125,12 @@
   .rv-text { font-size: var(--fs-sm); color: var(--ink); line-height: var(--lh-body); white-space: pre-wrap; word-break: break-word; }
   .rv-text mark { background: var(--navy-bg); color: inherit; border-radius: 3px; padding: 0 1px; }
   .rv-empty { color: var(--ink-3); font-size: var(--fs-sm); padding: var(--space-8) 0; text-align: center; }
+  .rv-rev.rv-extra { display: none; }
+  .rv-catsec.show-all .rv-rev.rv-extra { display: block; }
+  .rv-more { font: inherit; font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--navy); background: var(--navy-bg); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-4); cursor: pointer; margin-top: var(--space-1); }
+  .rv-more:hover { background: var(--hover); color: var(--ink); }
+  .rv-catsec.show-all .rv-more { display: none; }
+  #rv-cats.rv-searching .rv-more { display: none; }
 
   section { scroll-margin-top: 72px; margin-bottom: var(--space-12); }
   .s-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
@@ -209,7 +215,7 @@
   .i-body li { margin-bottom: 4px; color: var(--ink-2); }
   .i-body li b, .i-body li strong { color: var(--ink); }
   .lvl { display: inline-block; font-size: 12px; font-weight: 700; padding: 0 6px; border-radius: 5px; background: #eef0f9; color: #3b4a86; margin-right: 6px; }
-  .dept-line { background: #f6f3fc; border-radius: 8px; padding: 8px 12px; font-size: 12px; color: var(--ink-2); }
+  .dept-line { background: var(--surface-sunken); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); font-size: 12px; color: var(--ink-2); }
   .i-rat { font-size: 12px; color: var(--ink-2); }
   .i-rat b { color: var(--ink); }
 
@@ -273,7 +279,7 @@
   /* 인사이트 카드 — 쉬운 말 한 줄 뜻(요약 부제) + 쉬운 불편/개선 */
   .sum-line { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 220px; }
   .sum-one { font-size: 12px; color: var(--ink-2); font-weight: 400; line-height: 1.45; }
-  .i-lead { background: #f8fafc; border: 1px solid var(--line-2); border-radius: 10px; padding: 11px 13px 12px; margin-top: 12px; }
+  .i-lead { background: var(--surface-sunken); border: 1px solid var(--line-2); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4) var(--space-4); margin-top: var(--space-3); }
   .i-lead .bt { color: var(--accent); }
   .plainbadge { display: inline-block; font-size: 12px; font-weight: 800; color: var(--navy); background: var(--navy-bg); padding: 1px 7px; border-radius: 5px; margin-left: 6px; vertical-align: middle; }
 
@@ -820,6 +826,7 @@
     return out;
   }
 
+  var CAP = 5;
   var order = Object.keys(R.byCat).filter(function(k){ return R.byCat[k] && R.byCat[k].length; })
     .sort(function(a,b){ return R.byCat[b].length - R.byCat[a].length; });
 
@@ -835,15 +842,21 @@
     html += '<div class="rv-cat-head"><span class="rv-cat-pill" style="background:'+catVar(k)+'">카테고리 '+c.num+'</span><span class="rv-cat-title">'+c.name+'</span><span class="rv-cat-count">'+list.length+'건</span>';
     html += '<span class="rv-senti" style="color:'+sc.c+';background:'+sc.b+'">'+se.label+(se.avg!==null?' · 추천의향 <span class="rec">'+se.avg.toFixed(1)+'</span>/10':'')+'</span></div>';
     if (kw.length) html += '<div class="rv-kw"><span class="kwlab">자주 나온 말</span>' + kw.map(function(x){ return '<span class="k">'+esc(x.w)+'<b>'+x.n+'</b></span>'; }).join("") + '</div>';
-    html += list.map(function(it){
-      return '<div class="rv-rev" data-t="'+esc(it.t).replace(/"/g,"&quot;")+'">'
+    html += list.map(function(it, i){
+      var ex = i >= CAP ? ' rv-extra' : '';
+      return '<div class="rv-rev'+ex+'" data-t="'+esc(it.t).replace(/"/g,"&quot;")+'">'
         + '<div class="rv-rev-meta"><span class="rv-date">6/'+it.d+'</span><span class="rv-scores">'+scoreBadges(it.s)+'</span></div>'
         + '<div class="rv-text">'+esc(it.t)+'</div></div>';
     }).join("");
+    if (list.length > CAP) html += '<button class="rv-more" type="button">+ 나머지 ' + (list.length - CAP) + '건 더 보기</button>';
     html += '</section>';
   });
   var cats = document.getElementById("rv-cats");
   cats.innerHTML = html + '<div class="rv-empty" id="rv-noresult" style="display:none">검색 결과가 없습니다.</div>';
+
+  Array.prototype.forEach.call(document.querySelectorAll(".rv-more"), function(btn){
+    btn.addEventListener("click", function(){ var s = btn.closest(".rv-catsec"); if (s) s.classList.add("show-all"); });
+  });
 
   var activeK = "all";
   Array.prototype.forEach.call(document.querySelectorAll(".rv-chip"), function(btn){
@@ -857,6 +870,7 @@
   q.addEventListener("input", apply);
   function apply(){
     var term = q.value.trim().toLowerCase(), anyShown = false;
+    document.getElementById("rv-cats").classList.toggle("rv-searching", !!term);
     Array.prototype.forEach.call(document.querySelectorAll(".rv-catsec"), function(sec){
       var k = sec.getAttribute("data-k");
       if (activeK!=="all" && k!==activeK){ sec.style.display="none"; return; }
