@@ -23,45 +23,38 @@
 <meta name="twitter:image" content="https://greencar-uxd.github.io/voc/og.png">
 <script src="lib/chart.umd.js"></script>
 <script src="data.js"></script>
+<script src="voc-raw.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendard-dynamic-subset.min.css">
+<link rel="stylesheet" href="ds/tokens.css">
 <style>
   :root {
-    /* 그린카 × Cobalt 디자인 시스템 — Monochrome(ink) + Cobalt 강조 · Pretendard · 공식 토큰 매핑 (2026-06-29) */
-    --bg: #f7f8f9; --card: #ffffff; --line: #dde0e5; --line-2: #eceef1;
-    --ink: #14171b; --ink-2: #4d535d; --ink-3: #6b727d; --accent: #2d5bff;
-    --fact: #2447e0;   --fact-bg: #eef2ff;
-    --infer: #b56e08;  --infer-bg: #fbf2df;
-    --check: #6b727d;  --check-bg: #eceef1;
-    --up: #e0433a;     --down: #2447e0;
-    --r-past5: #c5cad1; --r-excerpt: #93acff; --r-full: #2447e0;  /* 수집구간 = 회색→코발트 단계 */
-    --navy: #2447e0; --navy-030: #93acff; --navy-bg: #eef2ff; --navy-deep: #1c328f;
-    --num: "Pretendard Variable", "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
-    /* 카테고리 색 — DS chart 팔레트(cobalt·green·amber·purple·red·gray) + 4색 확장 */
-    --c1:#5e84ff; --c2:#2447e0; --c3:#0fa968; --c4:#d9870b; --c5:#8b5cf6;
-    --c6:#14b8a6; --c7:#e0433a; --c8:#ec4899; --c9:#6b727d; --c10:#0ea5e9; --c-unknown:#c5cad1;
-    /* 히어로 그라데이션 */
-    --hero-1:#eef2ff; --hero-2:#ffffff;
-    --shadow: 0 1px 2px rgba(16,18,29,.06), 0 1px 3px rgba(16,18,29,.04);
-    --nav-bg: rgba(247,248,249,0.85); --hover:#eceef1; --track:#eceef1;
+    /* 대시보드 토큰 = Cobalt DS 토큰 alias (SSOT). 값은 ds/tokens.css 단일소스. */
+    --bg: var(--surface-page); --card: var(--surface-card); --line: var(--border); --line-2: var(--surface-sunken);
+    --ink: var(--text-primary); --ink-2: var(--text-secondary); --ink-3: var(--gray-500);
+    --fact: var(--text-link);   --fact-bg: var(--info-50);
+    --infer: var(--warning-600); --infer-bg: var(--warning-50);
+    --check: var(--gray-500);   --check-bg: var(--surface-sunken);
+    --up: var(--danger-500);    --down: var(--text-link);
+    --r-past5: var(--gray-300); --r-excerpt: var(--cobalt-300); --r-full: var(--cobalt-600);
+    --navy: var(--accent); --navy-030: var(--cobalt-300); --navy-bg: var(--surface-accent-subtle); --navy-deep: var(--cobalt-800);
+    --num: "Pretendard Variable","Pretendard","Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+    /* 카테고리 색 — DS chart 팔레트 + 4색 확장(틸·핑크·스카이는 DS 외 확장) */
+    --c1:var(--cobalt-400); --c2:var(--cobalt-600); --c3:var(--success-500); --c4:var(--warning-500); --c5:var(--chart-4);
+    --c6:#14b8a6; --c7:var(--danger-500); --c8:#ec4899; --c9:var(--gray-500); --c10:#0ea5e9; --c-unknown:var(--gray-300);
+    --shadow: var(--shadow-sm);
+    --nav-bg: rgba(247,248,249,0.85); --hover:var(--surface-sunken); --track:var(--surface-sunken);
   }
   /* ───────────── 다크모드 ───────────── */
   :root[data-theme="dark"] {
-    --bg:#0d0f12; --card:#16181d; --line:#262a30; --line-2:#1d2025;
-    --ink:#f3f4f6; --ink-2:#9aa1ab; --ink-3:#6b727d; --accent:#5b7cff;
-    --fact:#7d97ff;  --fact-bg:#18203f;
-    --infer:#e0a35e; --infer-bg:#2e2410;
-    --check:#9aa1ab; --check-bg:#1d2025;
-    --up:#f0625c;    --down:#5b7cff;
+    /* DS 다크가 surface/text/border/accent/link/sunken 자동 전환 — 여기선 '밝게 띄울' 상수만 override */
+    --infer:#e0a35e; --up:#f0625c; --navy-deep:#93acff;
     --r-past5:#5b626f; --r-excerpt:#93acff; --r-full:#5b7cff;
-    --navy:#5b7cff; --navy-030:#36406b; --navy-bg:#18203f; --navy-deep:#93acff;
     --c1:#7d97ff; --c2:#5b7cff; --c3:#2dd48f; --c4:#e8a13b; --c5:#a78bfa;
     --c6:#2dd4bf; --c7:#f0625c; --c8:#f472b6; --c9:#9aa1ab; --c10:#38bdf8; --c-unknown:#343943;
-    --hero-1:#16181d; --hero-2:#0d0f12;
-    --shadow: 0 1px 2px rgba(0,0,0,.4);
-    --nav-bg: rgba(13,15,18,0.85); --hover:#1d2025; --track:#1d2025;
+    --nav-bg: rgba(13,15,18,0.85);
   }
   /* 다크 — 틴트 칩/뱃지/콜아웃(밝은 파스텔 배경) 보정 */
   :root[data-theme="dark"] .s-head .tag-care,
@@ -78,24 +71,62 @@
   body { margin: 0; background: var(--bg); color: var(--ink);
     font-family: "Pretendard Variable", "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, sans-serif;
     font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px 88px; }
+  .wrap { max-width: 1600px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 56px) var(--space-20); }
 
   header.top { padding: 30px 0 14px; }
-  header.top h1 { font-size: 32px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.02em; line-height: 1.18; }
+  header.top { margin: var(--space-8) 0 var(--space-6); scroll-margin-top: 72px; }
+  header.top h1 { font-size: var(--fs-h2); font-weight: var(--fw-bold); margin: 0 0 var(--space-2); letter-spacing: var(--ls-tight); line-height: var(--lh-snug); }
   header.top .sub { color: var(--ink-3); font-size: 12px; }
 
-  nav.toc { position: sticky; top: 0; z-index: 30; background: var(--nav-bg);
-    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
-    display: flex; gap: 4px; overflow-x: auto; padding: 8px 0; margin-bottom: 22px; align-items: center; }
-  nav.toc a { flex: 0 0 auto; font-size: 12px; color: var(--ink-2); text-decoration: none; padding: 5px 11px; border-radius: 7px; white-space: nowrap; }
-  nav.toc a:hover { background: var(--hover); color: var(--ink); }
-  .theme-btn { flex: 0 0 auto; margin-left: auto; font-size: 15px; line-height: 1; cursor: pointer;
-    background: var(--card); color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px;
-    width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+  /* ── Sticky 사이트 헤더 ── */
+  .site { position: sticky; top: 0; z-index: 50; background: var(--nav-bg); backdrop-filter: saturate(180%) blur(10px); border-bottom: 1px solid var(--line); }
+  .site-inner { max-width: 1600px; margin: 0 auto; padding: var(--space-3) clamp(16px, 4vw, 56px); display: flex; align-items: center; gap: var(--space-4); }
+  .brand { font-size: var(--fs-lg); font-weight: var(--fw-bold); color: var(--ink); text-decoration: none; letter-spacing: var(--ls-tight); white-space: nowrap; }
+  .brand b { color: var(--accent); font-weight: var(--fw-bold); }
+  .site-nav { display: flex; gap: 2px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .site-nav a { flex: 0 0 auto; font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--ink-2); text-decoration: none; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); white-space: nowrap; }
+  .site-nav a:hover { background: var(--hover); color: var(--ink); }
+  .theme-btn { flex: 0 0 auto; font-size: 15px; line-height: 1; cursor: pointer;
+    background: var(--card); color: var(--ink-2); border: 1px solid var(--line); border-radius: var(--radius-pill);
+    width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
   .theme-btn:hover { background: var(--hover); color: var(--ink); }
   .theme-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 620px) { .brand { font-size: var(--fs-base); } .site-nav a { padding: var(--space-2); } }
 
-  section { scroll-margin-top: 58px; margin-bottom: 42px; }
+  /* ── 후기 원문 (메인 임베드) ── */
+  .rv-controls { position: sticky; top: 52px; z-index: 20; background: var(--nav-bg); backdrop-filter: blur(8px); padding: var(--space-3) 0; margin-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
+  .rv-search { width: 100%; font: inherit; font-size: var(--fs-sm); padding: var(--space-3) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--card); color: var(--ink); }
+  .rv-search::placeholder { color: var(--ink-3); }
+  .rv-chips { display: flex; gap: var(--space-2); overflow-x: auto; padding-top: var(--space-2); scrollbar-width: none; }
+  .rv-chips::-webkit-scrollbar { display: none; }
+  .rv-chip { flex: 0 0 auto; font: inherit; font-size: var(--fs-caption); font-weight: var(--fw-semibold); color: var(--ink-2); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); cursor: pointer; white-space: nowrap; }
+  .rv-chip:hover { background: var(--hover); }
+  .rv-chip.active { background: var(--navy); border-color: var(--navy); color: var(--on-accent); }
+  .rv-chip .n { opacity: .7; font-weight: var(--fw-medium); margin-left: 3px; }
+  .rv-catsec { margin-bottom: var(--space-7); scroll-margin-top: 120px; }
+  .rv-cat-head { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-3); }
+  .rv-cat-pill { display: inline-flex; align-items: center; font-size: var(--fs-caption); font-weight: var(--fw-bold); color: #fff; padding: 3px 11px; border-radius: var(--radius-pill); }
+  .rv-cat-title { font-size: var(--fs-lg); font-weight: var(--fw-bold); letter-spacing: var(--ls-tight); }
+  .rv-cat-count { font-size: var(--fs-caption); color: var(--ink-3); font-family: var(--num); font-variant-numeric: tabular-nums; }
+  .rv-senti { margin-left: auto; font-size: var(--fs-caption); font-weight: var(--fw-semibold); padding: 3px 11px; border-radius: var(--radius-pill); white-space: nowrap; }
+  .rv-senti .rec { font-family: var(--num); }
+  .rv-kw { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-3); }
+  .rv-kw .k { font-size: var(--fs-caption); font-weight: var(--fw-medium); color: var(--navy-deep); background: var(--navy-bg); border-radius: var(--radius-sm); padding: 3px 9px; }
+  .rv-kw .k b { font-family: var(--num); font-variant-numeric: tabular-nums; font-weight: var(--fw-bold); margin-left: 4px; color: var(--navy); }
+  .rv-kw .kwlab { font-size: var(--fs-caption); color: var(--ink-3); align-self: center; margin-right: 2px; }
+  .rv-rev { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin-bottom: var(--space-2); }
+  .rv-rev-meta { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2); flex-wrap: wrap; }
+  .rv-date { font-size: var(--fs-caption); color: var(--ink-3); font-family: var(--num); font-variant-numeric: tabular-nums; }
+  .rv-scores { display: flex; gap: 5px; flex-wrap: wrap; }
+  .rv-sc { font-size: 11px; color: var(--ink-2); background: var(--track); border-radius: var(--radius-xs); padding: 1px 6px; font-variant-numeric: tabular-nums; }
+  .rv-sc.lo { color: #fff; background: var(--up); }
+  .rv-sc.hi { color: var(--on-accent); background: var(--navy); }
+  .rv-text { font-size: var(--fs-sm); color: var(--ink); line-height: var(--lh-body); white-space: pre-wrap; word-break: break-word; }
+  .rv-text mark { background: var(--navy-bg); color: inherit; border-radius: 3px; padding: 0 1px; }
+  .rv-empty { color: var(--ink-3); font-size: var(--fs-sm); padding: var(--space-8) 0; text-align: center; }
+
+  section { scroll-margin-top: 72px; margin-bottom: var(--space-12); }
   .s-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
   .s-head h2 { font-size: 28px; font-weight: 600; margin: 0; letter-spacing: -0.02em; line-height: 1.18; }
   .s-head .h-meta { font-size: 12px; color: var(--ink-3); }
@@ -103,10 +134,10 @@
   .s-head .tag-care { font-size: 12px; font-weight: 700; color: var(--infer); background: var(--infer-bg); padding: 1px 8px; border-radius: 999px; }
   .s-note { color: var(--ink-3); font-size: 12px; margin: 0 0 14px; }
 
-  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-6); }
 
   .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
-  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 15px 17px; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-4) var(--space-5); }
   .kpi .k { font-size: 12px; color: var(--ink-3); margin-bottom: 6px; }
   .kpi .v { font-size: 28px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
   .kpi .v small { font-size: 14px; font-weight: 700; }
@@ -281,7 +312,7 @@
   }
 
   /* ── 시그니처 히어로: 지배적 사실 하나 ── */
-  .hero { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px 26px 20px; }
+  .hero { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-sm); }
   .hero .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .04em; color: var(--ink-3); }
   .hero .eyebrow b { color: var(--up); }
   .hero-grid { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; margin-top: 8px; }
@@ -301,26 +332,28 @@
 </style>
 </head>
 <body>
+<header class="site">
+  <div class="site-inner">
+    <a class="brand" href="#top">G car <b>VOC</b></a>
+    <nav class="site-nav" aria-label="섹션 이동">
+      <a href="#sec-summary">결론</a>
+      <a href="#sec-insight">인사이트</a>
+      <a href="#sec-bundle">반납 묶음</a>
+      <a href="#sec-full">추이</a>
+      <a href="#sec-cum">분포</a>
+      <a href="#sec-reviews">후기 원문</a>
+      <a href="#sec-limit">데이터 한계</a>
+    </nav>
+    <button id="themeToggle" class="theme-btn" type="button" aria-label="다크/라이트 전환" title="다크/라이트 전환">🌙</button>
+  </div>
+</header>
 <div class="wrap">
 
-  <header class="top">
+  <header class="top" id="top">
     <h1>G car 사용자 후기(VOC) 대시보드</h1>
     <div class="voc-sub">앱에서 <b>고칠 수 있는 불편</b>을 찾는 화면 · <b>VOC</b> = 고객의 소리(사용자 후기·불만)</div>
     <div class="sub" id="meta-sub"></div>
   </header>
-
-  <nav class="toc">
-    <a href="reviews.html" style="background:var(--navy);color:#fff;font-weight:700">후기 원문 ↗</a>
-    <a href="#sec-summary">한눈에 결론</a>
-    <a href="#sec-insight">개선 인사이트</a>
-    <a href="#sec-bundle">반납 묶음</a>
-    <a href="#sec-full">최근 3개월 비교</a>
-    <a href="#sec-cum">전체 누적 분포</a>
-    <a href="#sec-stack">월별 구성</a>
-    <a href="#sec-trend">19개월 추이</a>
-    <a href="#sec-limit">데이터 한계</a>
-    <button id="themeToggle" class="theme-btn" type="button" aria-label="다크/라이트 전환" title="다크/라이트 전환">🌙</button>
-  </nav>
 
   <!-- 처음 보세요? (온보딩 + 용어 풀이) -->
   <details class="plain" id="onboard" style="margin-bottom:16px">
@@ -400,6 +433,17 @@
         선이 끊긴 구간끼리는 <b>비교하지 마세요.</b>
       </div>
     </div>
+  </section>
+
+  <!-- 후기 원문 (카테고리별, 메인 임베드) -->
+  <section id="sec-reviews">
+    <div class="s-head"><h2>후기 원문</h2><span class="h-meta" id="rv-meta">카테고리별 · 키워드 · 감정</span></div>
+    <p class="s-note">분류 확정된 사용 후기를 카테고리별로 — 반복 키워드 · 감정 톤 · 전체 맥락 (고객번호 제외)</p>
+    <div class="rv-controls">
+      <input class="rv-search" id="rv-q" type="search" placeholder="후기 검색 (예: 반납, 주유, 담배, 위치…)" autocomplete="off">
+      <div class="rv-chips" id="rv-chips"></div>
+    </div>
+    <div id="rv-cats"></div>
   </section>
 
   <!-- 데이터 한계 -->
@@ -722,6 +766,114 @@
   /* ── 데이터 한계 ── */
   document.getElementById("limit-summary").innerHTML = "이 숫자를 읽을 때 주의할 점 " + D.limitations.length + "가지 <span style='color:var(--ink-3);font-weight:400'>(핵심: 시기끼리 비교 금지 · 비율 아닌 건수로 해석) — 펼쳐 보기</span>";
   document.getElementById("limitations").innerHTML = D.limitations.map(function (t) { return '<li><span class="badge fact">사실</span>' + t + "</li>"; }).join("");
+})();
+</script>
+
+<!-- 후기 원문 (메인 임베드) — 독립 모듈 -->
+<script>
+(function () {
+  "use strict";
+  var D = window.VOC_DATA, R = window.VOC_RAW;
+  if (!R || !R.byCat) return;
+  function cat(key){ return D.categories.find(function(c){return c.key===key;}); }
+  function catVar(k){ return "var(--"+k+")"; }
+
+  var mn = document.getElementById("rv-meta");
+  if (mn) mn.textContent = "기간 " + R.meta.period + " · 총 " + R.meta.total + "건 (분류 확정분 · 고객번호 제외)";
+
+  var STOP = ("너무 좀 정말 진짜 그냥 같아요 같습니다 있어요 있습니다 합니다 해주세요 했어요 하는 하고 그리고 근데 좋겠어요 좋겠습니다 좋아요 좋았어요 입니다 거의 그게 이게 저게 우리 제가 저는 너무너무 했는데 하는데 되는 되요 돼요 한번 다시 항상 자주 계속 그런 이런 저런 어떤 무슨 정도 부분 경우 때문 통해 위해 대한 라고 하지 면서 으로 에서 에게 한테 까지 부터 보다 처럼 만큼 그리 매우 아주 조금 많이 빨리 다들 모두 거나 이나 이랑 또는 그래서 하지만 그런데 근처 오늘 어제 이번 지난 그때").split(/\s+/);
+  var STOPSET = {}; STOP.forEach(function(s){ STOPSET[s]=1; });
+  var TAIL = /(합니다|입니다|습니다|했어요|해주세요|해주시|해요|하는|되는|된다|돼요|되요|드려요|드립니다|좋겠어요|좋겠습니다|있어요|있습니다)$/;
+  var JOSA = /(으로|에서|에게|한테|까지|부터|보다|처럼|만큼|이라고|라고|이나|에는|에도|은|는|이|가|을|를|에|의|도|만|로|와|과)$/;
+  function norm(w){ w = w.replace(TAIL, ""); if (w.length > 2) w = w.replace(JOSA, ""); return w; }
+  function tokens(t){ return (t.match(/[가-힣]{2,}|[A-Za-z]{2,}/g) || []).map(norm).filter(function(w){ return !STOPSET[w] && w.length>=2 && w.length<=8; }); }
+  function topKeywords(list, n){
+    var c = {};
+    list.forEach(function(it){ var seen={}; tokens(it.t).forEach(function(w){ if(seen[w])return; seen[w]=1; c[w]=(c[w]||0)+1; }); });
+    return Object.keys(c).map(function(w){ return {w:w,n:c[w]}; }).filter(function(x){ return x.n>=2; })
+      .sort(function(a,b){ return b.n-a.n || b.w.length-a.w.length; }).slice(0,n);
+  }
+  var NEG = /불편|불만|짜증|최악|화가|화나|별로|안돼|안 돼|안되|안됨|안 됨|못[ ]?찾|못[ ]?타|없어|없습|없네|지저분|더럽|냄새|담배|힘들|당황|실망|아쉽|부족|오류|불친절|비싸|빡|제발|시간[ ]?낭비|낭비|헤매|헤멤/g;
+  function sentiment(list){
+    var rs = list.map(function(it){ return +it.s.rec; }).filter(function(v){ return !isNaN(v); });
+    var avg = rs.length ? rs.reduce(function(a,b){return a+b;},0)/rs.length : null;
+    var label;
+    if (avg===null) label="—";
+    else if (avg < 5) label="분노·불만 강함";
+    else if (avg < 7.5) label="불만·아쉬움";
+    else if (avg < 9) label="중립·개선 요청";
+    else label="대체로 만족 속 개선 요청";
+    return { avg:avg, label:label };
+  }
+  function sentiColor(avg){
+    if (avg===null) return {c:"var(--ink-2)",b:"var(--track)"};
+    if (avg < 5) return {c:"#fff",b:"var(--up)"};
+    if (avg < 7.5) return {c:"var(--infer)",b:"var(--infer-bg)"};
+    if (avg < 9) return {c:"var(--ink-2)",b:"var(--track)"};
+    return {c:"var(--navy)",b:"var(--navy-bg)"};
+  }
+  function esc(s){ return s.replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];}); }
+  function scoreBadges(s){
+    var out="", rec=+s.rec;
+    if(!isNaN(rec)){ var cls = rec<=4?"rv-sc lo":(rec>=9?"rv-sc hi":"rv-sc"); out+='<span class="'+cls+'">추천 '+rec+'</span>'; }
+    out+='<span class="rv-sc">앱 '+s.app+'</span>';
+    return out;
+  }
+
+  var order = Object.keys(R.byCat).filter(function(k){ return R.byCat[k] && R.byCat[k].length; })
+    .sort(function(a,b){ return R.byCat[b].length - R.byCat[a].length; });
+
+  var chips = '<button class="rv-chip active" data-k="all">전체<span class="n">'+R.meta.total+'</span></button>';
+  order.forEach(function(k){ chips += '<button class="rv-chip" data-k="'+k+'">'+cat(k).num+' '+cat(k).name+'<span class="n">'+R.byCat[k].length+'</span></button>'; });
+  document.getElementById("rv-chips").innerHTML = chips;
+
+  var html = "";
+  order.forEach(function(k){
+    var list = R.byCat[k].slice().sort(function(a,b){ return a.d-b.d; });
+    var c = cat(k), kw = topKeywords(list, 12), se = sentiment(list), sc = sentiColor(se.avg);
+    html += '<section class="rv-catsec" id="sec-rv-'+k+'" data-k="'+k+'">';
+    html += '<div class="rv-cat-head"><span class="rv-cat-pill" style="background:'+catVar(k)+'">카테고리 '+c.num+'</span><span class="rv-cat-title">'+c.name+'</span><span class="rv-cat-count">'+list.length+'건</span>';
+    html += '<span class="rv-senti" style="color:'+sc.c+';background:'+sc.b+'">'+se.label+(se.avg!==null?' · 추천의향 <span class="rec">'+se.avg.toFixed(1)+'</span>/10':'')+'</span></div>';
+    if (kw.length) html += '<div class="rv-kw"><span class="kwlab">자주 나온 말</span>' + kw.map(function(x){ return '<span class="k">'+esc(x.w)+'<b>'+x.n+'</b></span>'; }).join("") + '</div>';
+    html += list.map(function(it){
+      return '<div class="rv-rev" data-t="'+esc(it.t).replace(/"/g,"&quot;")+'">'
+        + '<div class="rv-rev-meta"><span class="rv-date">6/'+it.d+'</span><span class="rv-scores">'+scoreBadges(it.s)+'</span></div>'
+        + '<div class="rv-text">'+esc(it.t)+'</div></div>';
+    }).join("");
+    html += '</section>';
+  });
+  var cats = document.getElementById("rv-cats");
+  cats.innerHTML = html + '<div class="rv-empty" id="rv-noresult" style="display:none">검색 결과가 없습니다.</div>';
+
+  var activeK = "all";
+  Array.prototype.forEach.call(document.querySelectorAll(".rv-chip"), function(btn){
+    btn.addEventListener("click", function(){
+      Array.prototype.forEach.call(document.querySelectorAll(".rv-chip"), function(b){ b.classList.remove("active"); });
+      btn.classList.add("active"); activeK = btn.getAttribute("data-k"); apply();
+      if (activeK!=="all"){ var el=document.getElementById("sec-rv-"+activeK); if(el) el.scrollIntoView({block:"start"}); }
+    });
+  });
+  var q = document.getElementById("rv-q");
+  q.addEventListener("input", apply);
+  function apply(){
+    var term = q.value.trim().toLowerCase(), anyShown = false;
+    Array.prototype.forEach.call(document.querySelectorAll(".rv-catsec"), function(sec){
+      var k = sec.getAttribute("data-k");
+      if (activeK!=="all" && k!==activeK){ sec.style.display="none"; return; }
+      var shown = 0;
+      Array.prototype.forEach.call(sec.querySelectorAll(".rv-rev"), function(rev){
+        var raw = rev.getAttribute("data-t"), hit = !term || raw.toLowerCase().indexOf(term)>=0;
+        rev.style.display = hit ? "" : "none";
+        if (hit) shown++;
+        var te = rev.querySelector(".rv-text");
+        if (term && hit){ var re = new RegExp("("+term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"); te.innerHTML = esc(raw).replace(re,"<mark>$1</mark>"); }
+        else te.textContent = raw;
+      });
+      sec.style.display = shown>0 ? "" : "none";
+      if (shown>0) anyShown = true;
+    });
+    document.getElementById("rv-noresult").style.display = anyShown ? "none" : "";
+  }
 })();
 </script>
 </body>
